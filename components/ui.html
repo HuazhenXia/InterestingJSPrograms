@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+  </head>
+  <body>
+
+
+    <script type="text/javascript" src="uibase.js">
+
+    </script>
+
+    <script type="text/javascript">
+
+      class ABC extends UIBase{
+
+        constructor(props = {}){
+          super(props);
+          this.props.num = 0;
+          this.add = this.add.bind(this);
+        }
+
+        add(){
+          ++this.props.num;
+          this.render();
+        }
+
+        _bindListener(element){
+
+          const button = element.querySelector("button");
+
+          // button.addEventListener("click",this.add.bind(this))
+
+          button.addEventListener("click",this.add.bind(this));
+
+        }
+
+        _render(){
+          return `
+            <div>
+              <h1> ${this.props.num} </h1>
+              <button> add </button>
+            </div>
+          `;
+        }
+      }
+
+      var abc = new ABC();
+      document.body.appendChild(abc.element);
+      
+    </script>
+  </body>
+</html>

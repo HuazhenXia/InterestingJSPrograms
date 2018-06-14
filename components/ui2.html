@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+
+<body>
+
+
+  <script type="text/javascript" src="uibase.js">
+  </script>
+
+
+  <script type="text/javascript">
+
+    class UIInput extends UIBase {
+      constructor(props) {
+        super(props);
+      }
+
+      _bindListener(dom){
+        const that = this;
+        dom.addEventListener("keypress",function (event) {
+           if(event.target.value.length === 5){
+             that.emit("five", event.target.value);
+             event.target.value = "";
+           }
+        });
+      }
+
+      _render(){
+          return `
+            <input >
+          `
+      }
+    }
+
+    class List extends UIBase {
+      constructor(props = {}) {
+        props.list = [];
+        super(props);
+      }
+      add(item){
+        this.props.list.push(item);
+        this.render();
+      }
+      _render(){
+
+        let lis = "";
+        this.props.list.forEach(item => lis = lis+`<li>${item}</li>`);
+        return `
+        <ul>
+          ${ lis }
+        </ul>
+        `
+      }
+    }
+
+    var input = new UIInput();
+
+    var list = new List();
+    input.on("five",function (data) {
+      list.add(data);
+    })
+
+    document.body.appendChild(input.element);
+    document.body.appendChild(list.element);
+
+
+  </script>
+</body>
+
+</html>

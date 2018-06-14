@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+
+    .tabs{
+      border:1px solid  #666;
+    }
+
+    .tabs > div {
+      padding: 10px;
+      font-size:2em;
+      display: none;
+    }
+
+    .tabs > div.show {
+       display: block;
+    }
+
+		   a {
+			 text-decoration: none;
+		   }
+
+       nav {
+         height:30px;
+         background-color: #eee;
+         border:1px solid #666;
+       }
+
+       nav a{
+         line-height: 30px;
+         padding:0 10px;
+         border-right: 1px solid #666;
+         float:left;
+       }
+
+       .active{
+         background-color: #666;
+         color: #eee;
+       }
+
+       nav a:hover {
+         background-color: #333;
+         color:#eee;
+       }
+
+
+    </style>
+  </head>
+  <body>
+
+
+
+    <script type="text/javascript" src="uibase.js">
+
+    </script>
+
+
+    <script type="text/javascript">
+
+    class Tabs extends UIBase{
+
+      constructor(props = { list: [] }){
+        props.currentIndex = 0;
+        super(props);
+      }
+
+      add(tab){
+         this.props.list.push(tab);
+         this.render();
+      }
+
+      select(index){
+        this.props.currentIndex = index;
+        this.render();
+      }
+
+      _bindListener(tabs){
+        const alist = tabs.querySelectorAll("a");
+        const divs = tabs.querySelectorAll("div");
+        alist.forEach((a,index)=>a.addEventListener("click",()=>this.select(index)))
+      }
+
+      _render(){
+
+        let adoms = "";
+        let divs = "";
+
+        this.props.list.forEach( (tab,index) => {
+
+           adoms +=  `<a class="${this.props.currentIndex === index ? "active": ""}" >${tab.name}</a>`;
+           divs += `<div class="${this.props.currentIndex === index ? "show" : ""}">${tab.body}</div>`
+        })
+
+        return `
+        <div class="tabs">
+          <nav>
+            ${adoms}
+          </nav>
+          ${divs}
+        </div>
+        `
+      }
+    }
+
+    var tabs = new Tabs({
+      list:[
+        {name:"AAA",body:"aaaaaaaaa"},
+        {name:"BBB",body:"bbbbbbbbb"},
+        {name:"CCC",body:"ccccccccc"}
+      ]
+    });
+
+    document.body.appendChild(tabs.element);
+
+    </script>
+
+  </body>
+</html>
